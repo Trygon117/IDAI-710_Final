@@ -1,0 +1,52 @@
+seed: 42
+
+cohort:
+  n_per_group: 38
+  group_c_dx: 3
+  tabular_csv: data/raw/tabular/investigator_nacc72.csv
+  mri_csv: data/manifests/downloaded_patients.csv
+  manifest_path: data/manifests/patients_300.parquet
+  mri_dir: data/mri_nifti_data
+
+model:
+  num_classes: 6
+
+cnn:
+  backbone: densenet121
+  out_dim: 512
+  proj_dim: 128
+  freeze_blocks: 3
+  dropout: 0.3
+
+stage1:
+  epochs: 30
+  batch_size: 4
+  lr: 1.0e-4
+  weight_decay: 1.0e-4
+  label_smoothing: 0.1
+
+stage2:
+  epochs: 100
+  patience: 10
+  lr_cnn: 1.0e-5
+  lr_gnn: 1.0e-3
+  weight_decay: 1.0e-4
+  lambda_supcon: 0.1
+  batch_size_cnn: 4
+
+hypergraph:
+  edge_emb_dim: 64
+  n_conv_layers: 2
+  hidden_dim: 256
+  dropout: 0.3
+  use_knn_edges: true
+  k: 5
+
+preprocessing:
+  pixdim: [1.5, 1.5, 1.5]
+  spatial_size: [96, 96, 96]
+
+paths:
+  preprocessed_dir: data/preprocessed
+  checkpoint_dir: data/checkpoints
+  results_dir: results
