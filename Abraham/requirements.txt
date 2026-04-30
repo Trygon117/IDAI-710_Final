@@ -1,0 +1,11 @@
+pandas
+numpy
+torch
+torch-geometric
+monai
+nibabel
+jupyter
+wandb
+scikit-learn
+matplotlib
+seaborn
